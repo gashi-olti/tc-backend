@@ -7,7 +7,7 @@
     "module": "CommonJS",
     "rootDir": "./src",
     "moduleResolution": "Node",
-    "typeRoots": ["./node_modules/@types"],
+    "typeRoots": ["./src/types", "./node_modules/@types"],
     "sourceMap": true,
     "outDir": "dist/",
     "esModuleInterop": true,
@@ -16,6 +16,13 @@
     "strictNullChecks": true,
     "skipLibCheck": true,
     "experimentalDecorators": true,
-    "strictPropertyInitialization": false
+    "strictPropertyInitialization": false,
+    "paths": {
+      "Controllers": ["./controllers"],
+      "DTO": ["./dto"],
+      "Entity": ["./entity"],
+      "Helpers": ["./helpers"],
+      "Middleware": ["./middleware"]
+    }
   }
 }
