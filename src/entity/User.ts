@@ -1,31 +1,50 @@
 import {
   Entity,
-  PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
+import { DateTime } from 'luxon';
 
 @Entity({ name: 'users' })
 export class User {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+  @PrimaryGeneratedColumn()
+  public id: string;
+
+  @Column()
+  public uuid: string;
 
   @Column({ nullable: false })
-  name: string;
+  public name: string;
 
   @Column({ nullable: false })
-  email: string;
+  public email: string;
 
   @Column({ nullable: false })
-  password: string;
+  public password: string;
 
   @Column({ default: 'user' })
-  role: string;
+  public role: string;
+
+  @Column()
+  public rememberMeToken?: string;
+
+  @Column()
+  public verificationToken: string | null;
+
+  @Column({ type: 'datetime' })
+  public verificationCreatedAt: DateTime | null;
 
   @CreateDateColumn()
-  createdAt: Date;
+  public createdAt: DateTime;
 
   @UpdateDateColumn()
-  updatedAt: Date;
+  public updatedAt: DateTime;
+
+  public isTokenInvalid(): boolean {
+    return (
+      !this.verificationCreatedAt || DateTime.utc().minus({ days: 2 }) > this.verificationCreatedAt
+    );
+  }
 }
