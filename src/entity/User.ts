@@ -9,38 +9,34 @@ import { DateTime } from 'luxon';
 
 @Entity({ name: 'users' })
 export class User {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('rowid')
   public id: string;
 
-  @Column()
+  @Column('uuid')
   public uuid: string;
 
-  @Column({ nullable: false })
-  public name: string;
-
-  @Column({ nullable: false })
+  @Column('character varying', { nullable: false, unique: true })
   public email: string;
 
-  @Column({ nullable: false })
+  @Column('character varying', { nullable: false })
   public password: string;
 
-  @Column({ default: 'user' })
-  public role: string;
-
-  @Column()
+  @Column('character varying', { name: 'remember_me_token', length: 32 })
   public rememberMeToken?: string;
 
-  @Column()
+  @Column('character varying', { name: 'verification_token', nullable: true, length: 255 })
   public verificationToken: string | null;
 
-  @Column({ type: 'datetime' })
+  @Column({ name: 'verification_created_at', type: 'timestamp', nullable: true })
   public verificationCreatedAt: DateTime | null;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ name: 'created_at', type: 'timestamp with time zone' })
   public createdAt: DateTime;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ name: 'updated_at', type: 'timestamp with time zone' })
   public updatedAt: DateTime;
+
+  // TODO: Add roles column?
 
   public isTokenInvalid(): boolean {
     return (
